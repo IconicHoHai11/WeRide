@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vehicle Details - WeRide</title>
+  <link rel="stylesheet" href="/rent pagte/vehicle.css" />
+</head>
+<body>
+  <header>
+    <div class="logo">WeRide</div>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="/home.html">Home</a></li>
+        <li><a href="/rent pagte/rent.html">Back to Rent</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="vehicle-detail">
+      <div class="vehicle-media">
+        <img id="vehicle-image" src="" alt="Vehicle image" />
+      </div>
+      <div class="vehicle-info">
+        <h1 id="vehicle-name">Vehicle Name</h1>
+        <p class="vehicle-type" id="vehicle-type">Type</p>
+        <p class="vehicle-price"><span id="vehicle-price"></span>/day</p>
+        <p class="vehicle-description" id="vehicle-description">Perfect for your next trip. Clean, reliable, and ready to ride.</p>
+      </div>
+    </section>
+
+    <section class="rent-form-section">
+      <h2>Rent this vehicle</h2>
+      <form id="rent-form" class="rent-form">
+        <div class="form-row">
+          <label for="fullName">Full name</label>
+          <input type="text" id="fullName" name="fullName" required />
+        </div>
+        <div class="form-row">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required />
+        </div>
+        <div class="form-row">
+          <label for="phone">Phone</label>
+          <input type="tel" id="phone" name="phone" required />
+        </div>
+        <div class="form-row two-col">
+          <div>
+            <label for="pickupDate">Pick-up date</label>
+            <input type="date" id="pickupDate" name="pickupDate" required />
+          </div>
+          <div>
+            <label for="returnDate">Return date</label>
+            <input type="date" id="returnDate" name="returnDate" required />
+          </div>
+        </div>
+        <div class="form-row">
+          <label for="location">Pick-up location</label>
+          <input type="text" id="location" name="location" placeholder="e.g., Downtown Office" required />
+        </div>
+        <div class="form-row">
+          <label for="payment">Payment method</label>
+          <select id="payment" name="payment" required>
+            <option value="">Select a method</option>
+            <option value="card">Credit/Debit Card</option>
+            <option value="cash">Cash</option>
+            <option value="wallet">Digital Wallet</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label for="licensePhoto">Driver's license photo</label>
+          <input type="file" id="licensePhoto" name="licensePhoto" accept="image/*" required />
+          <div class="license-preview" id="license-preview" style="display:none;">
+            <img id="license-preview-img" alt="License preview" />
+          </div>
+        </div>
+        <div class="form-row">
+          <label for="notes">Notes (optional)</label>
+          <textarea id="notes" name="notes" rows="3" placeholder="Any special requests?"></textarea>
+        </div>
+
+        <div class="pricing">
+          <div>Daily rate: <strong><span id="rate-display">$0</span></strong></div>
+          <div>Days: <strong><span id="days-display">0</span></strong></div>
+          <div>Total: <strong><span id="total-display">$0</span></strong></div>
+        </div>
+
+        <button type="submit" class="btn-primary">Confirm Rental</button>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 WeRide. All rights reserved.</p>
+  </footer>
+
+  <script>
+    (function () {
+      var params = new URLSearchParams(window.location.search);
+      var name = params.get('name') || 'Vehicle';
+      var type = params.get('type') || '';
+      var img = params.get('img') || '';
+      var price = parseFloat(params.get('price') || '0');
+      var desc = params.get('desc') || '';
+
+      var imageEl = document.getElementById('vehicle-image');
+      var nameEl = document.getElementById('vehicle-name');
+      var typeEl = document.getElementById('vehicle-type');
+      var priceEl = document.getElementById('vehicle-price');
+      var rateDisplay = document.getElementById('rate-display');
+      var daysDisplay = document.getElementById('days-display');
+      var totalDisplay = document.getElementById('total-display');
+      var descEl = document.getElementById('vehicle-description');
+
+      if (img) imageEl.src = img;
+      imageEl.alt = name;
+      nameEl.textContent = name;
+      typeEl.textContent = type;
+      priceEl.textContent = price > 0 ? ('$' + price.toFixed(0)) : '$0';
+      rateDisplay.textContent = price > 0 ? ('$' + price.toFixed(0)) : '$0';
+      if (desc) descEl.textContent = desc;
+
+      function computeDays(startStr, endStr) {
+        if (!startStr || !endStr) return 0;
+        var start = new Date(startStr + 'T00:00:00');
+        var end = new Date(endStr + 'T00:00:00');
+        var diffMs = end - start;
+        var days = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+        return Math.max(0, days);
+      }
+
+      function updateTotals() {
+        var pickup = document.getElementById('pickupDate').value;
+        var ret = document.getElementById('returnDate').value;
+        var days = computeDays(pickup, ret);
+        daysDisplay.textContent = days.toString();
+        var total = days * (isNaN(price) ? 0 : price);
+        totalDisplay.textContent = '$' + total.toFixed(0);
+      }
+
+      document.getElementById('pickupDate').addEventListener('change', updateTotals);
+      document.getElementById('returnDate').addEventListener('change', updateTotals);
+
+      var licenseInput = document.getElementById('licensePhoto');
+      var licensePreview = document.getElementById('license-preview');
+      var licensePreviewImg = document.getElementById('license-preview-img');
+      var MAX_SIZE_BYTES = 5 * 1024 * 1024; // 5MB
+
+      licenseInput.addEventListener('change', function () {
+        var file = licenseInput.files && licenseInput.files[0];
+        if (!file) {
+          licensePreview.style.display = 'none';
+          licensePreviewImg.removeAttribute('src');
+          return;
+        }
+        if (!file.type || !file.type.startsWith('image/')) {
+          alert('Please upload an image file for your license.');
+          licenseInput.value = '';
+          licensePreview.style.display = 'none';
+          return;
+        }
+        if (file.size > MAX_SIZE_BYTES) {
+          alert('Image is too large. Please upload an image under 5MB.');
+          licenseInput.value = '';
+          licensePreview.style.display = 'none';
+          return;
+        }
+        var reader = new FileReader();
+        reader.onload = function (e) {
+          licensePreviewImg.src = e.target.result;
+          licensePreview.style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+      });
+
+      document.getElementById('rent-form').addEventListener('submit', function (e) {
+        e.preventDefault();
+        if (!localStorage.getItem('weride_authed')) {
+          var red = encodeURIComponent(window.location.pathname + window.location.search + '#rent');
+          window.location.href = '/login.html?redirect=' + red;
+          return;
+        }
+        alert('Thank you! Your rental request for ' + name + ' has been submitted.');
+        window.location.href = '/rent pagte/rent.html';
+      });
+    })();
+  </script>
+</body>
+</html>
+
+

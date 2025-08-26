@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us - WeRide</title>
+  <link rel="stylesheet" href="/home.css">
+</head>
+<body>
+  <header>
+    <div class="logo">WeRide</div>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="/home.html">Home</a></li>
+        <li><a href="/rent pagte/rent.html">Rent a Vehicle</a></li>
+        <li><a href="/sale page/sale.html">Sale</a></li>
+        <li><a href="/about.html">About Us</a></li>
+        <li><a href="/contact.html" class="active">Contact Us</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" style="min-height: 200px;">
+      <div class="hero-content">
+        <h1>Contact Us</h1>
+        <p>Questions, feedback, or partnership ideas? We’d love to hear from you.</p>
+      </div>
+    </section>
+
+    <section style="max-width: 900px; margin: 24px auto; padding: 0 16px;">
+      <form id="contact-form" style="display: grid; gap: 12px;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+          <input type="text" id="name" placeholder="Your Name" required>
+          <input type="email" id="email" placeholder="Your Email" required>
+        </div>
+        <input type="text" id="subject" placeholder="Subject" required>
+        <textarea id="message" rows="5" placeholder="Your Message" required></textarea>
+        <button type="submit" class="btn-primary" style="width: fit-content;">Send Message</button>
+      </form>
+
+      <div style="margin-top: 16px; color: #6b7280;">
+        <div>Email: support@weride.example</div>
+        <div>Phone: +977-9800000000</div>
+        <div>Address: Kathmandu, Nepal</div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 WeRide. All rights reserved.</p>
+  </footer>
+
+  <script>
+    document.getElementById('contact-form').addEventListener('submit', function(e){
+      e.preventDefault();
+      alert('Thanks! Your message has been sent.');
+      (document.getElementById('contact-form') || {}).reset();
+    });
+  </script>
+</body>
+</html>
+
+
