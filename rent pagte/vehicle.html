@@ -79,7 +79,7 @@
         <div class="pricing">
           <div>Daily rate: <strong><span id="rate-display">$0</span></strong></div>
           <div>Days: <strong><span id="days-display">0</span></strong></div>
-          <div>Total: <strong><span id="total-display">$0</span></strong></div>
+          <div>Total: <strong><span id="total-display">Rs0</span></strong></div>
         </div>
 
         <button type="submit" class="btn-primary">Confirm Rental</button>
@@ -117,26 +117,9 @@
       imageEl.alt = name;
       nameEl.textContent = name;
       typeEl.textContent = type;
-      priceEl.textContent = price > 0 ? ('$' + price.toFixed(0)) : '$0';
-      rateDisplay.textContent = price > 0 ? ('$' + price.toFixed(0)) : '$0';
+      priceEl.textContent = price > 0 ? ('Rs' + price.toFixed(0)) : 'Rs0';
+      rateDisplay.textContent = price > 0 ? ('Rs' + price.toFixed(0)) : 'Rs0';
       if (desc) descEl.textContent = desc;
-
-      // Map setup: prefer lat/lng; fallback to place string; default to a generic city center
-      var mapIframe = document.getElementById('pickup-map');
-      var addressEl = document.getElementById('pickup-address');
-      var hasCoords = !isNaN(lat) && !isNaN(lng) && (lat !== 0 || lng !== 0);
-      var mapQuery = '';
-      if (hasCoords) {
-        mapQuery = lat.toFixed(6) + ',' + lng.toFixed(6);
-        addressEl.textContent = 'Coordinates: ' + mapQuery;
-      } else if (place) {
-        mapQuery = encodeURIComponent(place);
-        addressEl.textContent = place;
-      } else {
-        mapQuery = encodeURIComponent('Kathmandu, Nepal');
-        addressEl.textContent = 'Kathmandu, Nepal';
-      }
-      mapIframe.src = 'https://www.google.com/maps?q=' + mapQuery + '&z=15&output=embed';
 
       function computeDays(startStr, endStr) {
         if (!startStr || !endStr) return 0;
@@ -153,7 +136,7 @@
         var days = computeDays(pickup, ret);
         daysDisplay.textContent = days.toString();
         var total = days * (isNaN(price) ? 0 : price);
-        totalDisplay.textContent = '$' + total.toFixed(0);
+        totalDisplay.textContent = 'Rs' + total.toFixed(0);
       }
 
       document.getElementById('pickupDate').addEventListener('change', updateTotals);

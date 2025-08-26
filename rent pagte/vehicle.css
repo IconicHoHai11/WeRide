@@ -77,36 +77,6 @@ main {
   margin-top: 32px;
 }
 
-/* Map section */
-.pickup-map-section {
-  margin-top: 0;
-}
-
-.map-card {
-  border: 1px solid #e5e7eb;
-  border-radius: 10px;
-  padding: 16px;
-}
-
-.map-embed {
-  width: 100%;
-  height: 320px;
-  border-radius: 8px;
-  overflow: hidden;
-  border: 1px solid #e5e7eb;
-}
-
-.map-embed iframe {
-  width: 100%;
-  height: 100%;
-  border: 0;
-}
-
-.map-address {
-  margin-top: 8px;
-  color: #374151;
-}
-
 .rent-form-section h2 {
   margin-bottom: 12px;
 }
@@ -182,27 +152,6 @@ textarea:focus {
   .vehicle-detail {
     grid-template-columns: 1fr;
   }
-}
-
-/* Two-column layout for form + map on desktop */
-.rent-layout {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 24px;
-  align-items: start;
-  margin-top: 24px;
-}
-
-/* Place form on the left and map on the right on desktop */
-.rent-form-section { grid-column: 1; }
-.pickup-map-section { grid-column: 2; }
-
-@media (max-width: 900px) {
-  .rent-layout {
-    grid-template-columns: 1fr;
-  }
-  .rent-form-section,
-  .pickup-map-section { grid-column: auto; }
 }
 
 /* License preview */
