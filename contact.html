@@ -21,32 +21,29 @@
 
   <main style="height: 100vh;">
     <!-- Hero Section -->
-   <section class="contact-head">
-     <div class="hero-content">
-        <h1>Contact Us</h1>
-        <p>Questions, feedback, or partnership ideas? We’d love to hear from you.</p>
-      </div>
-   </section>
-     
- 
-
-    <section style="max-width: 900px; margin: 24px auto; padding: 0 16px;">
-      <form id="contact-form" style="display: grid; gap: 12px;">
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-          <input type="text" id="name" placeholder="Your Name" required>
-          <input type="email" id="email" placeholder="Your Email" required>
+    <section class="contact-section">
+      <div class="contact-container">
+        <h1>Contact WeRide</h1>
+        <p>We're here to help! Reach out with any questions or feedback.</p>
+    
+        <form id="contact-form">
+          <div class="input-row">
+            <input type="text" id="name" placeholder="Your Name" required>
+            <input type="email" id="email" placeholder="Your Email" required>
+          </div>
+          <input type="text" id="subject" placeholder="Subject" required>
+          <textarea id="message" rows="5" placeholder="Your Message" required></textarea>
+          <button type="submit" class="btn-primary">Send Message</button>
+        </form>
+    
+        <div class="contact-info">
+          <div>Email: support@weride.example</div>
+          <div>Phone: +977-9800000000</div>
+          <div>Address: Kathmandu, Nepal</div>
         </div>
-        <input type="text" id="subject" placeholder="Subject" required>
-        <textarea id="message" rows="5" placeholder="Your Message" required></textarea>
-        <button type="submit" class="btn-primary" style="width: fit-content;">Send Message</button>
-      </form>
-
-      <div style="margin-top: 16px; color: #6b7280;">
-        <div>Email: support@weride.example</div>
-        <div>Phone: +977-9800000000</div>
-        <div>Address: Kathmandu, Nepal</div>
       </div>
     </section>
+
   </main>
 
   <footer>
@@ -62,5 +59,3 @@
   </script>
 </body>
 </html>
-
-

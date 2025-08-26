@@ -100,9 +100,7 @@
       var img = params.get('img') || '';
       var price = parseFloat(params.get('price') || '0');
       var desc = params.get('desc') || '';
-      var lat = parseFloat(params.get('lat') || '0');
-      var lng = parseFloat(params.get('lng') || '0');
-      var place = params.get('place') || '';
+      // Map parameters removed (no map on this page)
 
       var imageEl = document.getElementById('vehicle-image');
       var nameEl = document.getElementById('vehicle-name');
@@ -141,6 +139,7 @@
 
       document.getElementById('pickupDate').addEventListener('change', updateTotals);
       document.getElementById('returnDate').addEventListener('change', updateTotals);
+      updateTotals();
 
       var licenseInput = document.getElementById('licensePhoto');
       var licensePreview = document.getElementById('license-preview');
