@@ -56,10 +56,6 @@
           </div>
         </div>
         <div class="form-row">
-          <label for="location">Pick-up location</label>
-          <input type="text" id="location" name="location" placeholder="e.g., Downtown Office" required />
-        </div>
-        <div class="form-row">
           <label for="payment">Payment method</label>
           <select id="payment" name="payment" required>
             <option value="">Select a method</option>
@@ -89,6 +85,7 @@
         <button type="submit" class="btn-primary">Confirm Rental</button>
       </form>
     </section>
+    </div>
   </main>
 
   <footer>
@@ -103,6 +100,9 @@
       var img = params.get('img') || '';
       var price = parseFloat(params.get('price') || '0');
       var desc = params.get('desc') || '';
+      var lat = parseFloat(params.get('lat') || '0');
+      var lng = parseFloat(params.get('lng') || '0');
+      var place = params.get('place') || '';
 
       var imageEl = document.getElementById('vehicle-image');
       var nameEl = document.getElementById('vehicle-name');
@@ -120,6 +120,23 @@
       priceEl.textContent = price > 0 ? ('$' + price.toFixed(0)) : '$0';
       rateDisplay.textContent = price > 0 ? ('$' + price.toFixed(0)) : '$0';
       if (desc) descEl.textContent = desc;
+
+      // Map setup: prefer lat/lng; fallback to place string; default to a generic city center
+      var mapIframe = document.getElementById('pickup-map');
+      var addressEl = document.getElementById('pickup-address');
+      var hasCoords = !isNaN(lat) && !isNaN(lng) && (lat !== 0 || lng !== 0);
+      var mapQuery = '';
+      if (hasCoords) {
+        mapQuery = lat.toFixed(6) + ',' + lng.toFixed(6);
+        addressEl.textContent = 'Coordinates: ' + mapQuery;
+      } else if (place) {
+        mapQuery = encodeURIComponent(place);
+        addressEl.textContent = place;
+      } else {
+        mapQuery = encodeURIComponent('Kathmandu, Nepal');
+        addressEl.textContent = 'Kathmandu, Nepal';
+      }
+      mapIframe.src = 'https://www.google.com/maps?q=' + mapQuery + '&z=15&output=embed';
 
       function computeDays(startStr, endStr) {
         if (!startStr || !endStr) return 0;
